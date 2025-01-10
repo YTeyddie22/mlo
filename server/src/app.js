@@ -112,6 +112,7 @@ app.use(express.urlencoded({ extended: false }));
  */
 
 app.set("view engine", "pug");
+app.use(compression())
 
 app.set("views", path.join(__dirname, "client"));
 
