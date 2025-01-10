@@ -1,4 +1,4 @@
-const path = require("path")
+const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
@@ -6,64 +6,63 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
-const xss = require("xss-clean");
-const compression = require("compression")
+const xss = require("xss");
+const compression = require("compression");
 const cors = require("cors");
 
 app.use(morgan("combined"));
 app.use(express.json());
-app.disable('x-powered-by')
+app.disable("x-powered-by");
 
 //! Get the actual path of the static file
 app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.use((req, res, next) => {
-	res.setHeader("Access-Control-Allow-Origin", "*");
-	res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-	res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-	next();
-});;
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    next();
+});
 const whiteList = [
     //production
     // development urls
-    'http://localhost',
-    'localhost',
-    '127.0.0.1',
-    'http://localhost:3000',
-    'localhost:3000',
-    'http://127.0.0.1:3000',
-    '127.0.0.1:3000',
+    "http://localhost",
+    "localhost",
+    "127.0.0.1",
+    "http://localhost:3000",
+    "localhost:3000",
+    "http://127.0.0.1:3000",
+    "127.0.0.1:3000",
     /\.ngrok\.io$/,
     // production urls
-    ];
+];
 const corsOptions = {
-        origin: whiteList,
-        credentials: true,
-        optionsSuccessStatus: 200,
-        methods: 'GET,HEAD,PUT,OPTIONS,PATCH,POST,DELETE',
-        preflightContinue: true,
-        allowedHeaders: [
-        'Origin',
-        'Access-Control-Allow-Origin',
-        'Access-Control-Allow-Headers',
-        'Accept-Version',
-        'Authorization',
-        'Credentials',
-        'X-Requested-With',
-        'Content-Type'
-        ]
-    };
-   
-app.enable('trust proxy');
-app.set('trust proxy', 1);
+    origin: whiteList,
+    credentials: true,
+    optionsSuccessStatus: 200,
+    methods: "GET,HEAD,PUT,OPTIONS,PATCH,POST,DELETE",
+    preflightContinue: true,
+    allowedHeaders: [
+        "Origin",
+        "Access-Control-Allow-Origin",
+        "Access-Control-Allow-Headers",
+        "Accept-Version",
+        "Authorization",
+        "Credentials",
+        "X-Requested-With",
+        "Content-Type",
+    ],
+};
+
+app.enable("trust proxy");
+app.set("trust proxy", 1);
 app.use(cors(corsOptions));
 
-app.options('*', cors(corsOptions), (req, res) => res.sendStatus(200));
+app.options("*", cors(corsOptions), (req, res) => res.sendStatus(200));
 
-
- if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
     app.use(helmet());
-  }
+}
 
 app.use(
     helmet({
@@ -104,7 +103,7 @@ app.use(
 
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: false }));
-  app.disable('x-powered-by');
+app.disable("x-powered-by");
 
 /**
  * ? Setting up the view engine;( PUG);
@@ -112,13 +111,9 @@ app.use(express.urlencoded({ extended: false }));
  */
 
 app.set("view engine", "pug");
-app.use(compression())
+app.use(compression());
 
 app.set("views", path.join(__dirname, "client"));
-
-
-
-
 
 //! Test middleware;
 
