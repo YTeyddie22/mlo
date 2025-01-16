@@ -1,4 +1,5 @@
 const dotenv = require("dotenv");
+const http = require("http");
 const app = require("./app");
 
 process.on("uncaughtException", (err) => {
@@ -10,8 +11,10 @@ dotenv.config({ path: ".env" });
 
 const PORT = process.env.PORT || 3000;
 
+const server = http.createServer(app);
+
 async function startServer() {
-    const server = app.listen(PORT, () => {
+    server.listen(PORT, () => {
         console.log(`Listening to port ${PORT}`);
     });
 }
