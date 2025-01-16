@@ -5,8 +5,9 @@ const app = express();
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
+const bodyParser = require("body-parser");
+const { xss } = require("express-xss-sanitizer");
 const cookieParser = require("cookie-parser");
-const xss = require("xss");
 const compression = require("compression");
 const cors = require("cors");
 
@@ -60,6 +61,9 @@ app.use(cors(corsOptions));
 
 app.options("*", cors(corsOptions), (req, res) => res.sendStatus(200));
 
+app.use(bodyParser.json({ limit: "1kb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "1kb" }));
+
 if (process.env.NODE_ENV === "production") {
     app.use(helmet());
 }
@@ -82,9 +86,6 @@ app.use("/api", limiter);
 
 //! For parsing cookies
 app.use(cookieParser());
-
-//*Against Xss;
-app.use(xss());
 
 //* Against parameter pollution;
 
