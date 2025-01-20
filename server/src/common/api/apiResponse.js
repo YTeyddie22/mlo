@@ -58,3 +58,15 @@ export class AuthFailureError extends ApiResponse {
         super(StatusCode.FAILURE, ResponseStatus.UNAUTHORIZED, message);
     }
 }
+
+export class NotFoundResponse extends ApiResponse {
+    constructor(message = "Not Found") {
+        super(StatusCode.FAILURE, ResponseStatus.NOT_FOUND, message);
+        this.url = undefined;
+    }
+
+    send(res) {
+        this.url = res.req?.originalUrl;
+        return super.prepare(res, this);
+    }
+}
