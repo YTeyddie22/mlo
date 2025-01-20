@@ -52,3 +52,9 @@ class ApiResponse {
         return clone;
     }
 }
+
+export class AuthFailureError extends ApiResponse {
+    constructor(message = "Authentication Failure") {
+        super(StatusCode.FAILURE, ResponseStatus.UNAUTHORIZED, message);
+    }
+}
