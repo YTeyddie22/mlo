@@ -23,6 +23,32 @@ const ResponseStatus = {
     SERVICE_UNAVAILABLE: 503,
 };
 
-class APIResponse {
-    constructor(StatusCode, ResponseStatus, message) {}
+class ApiResponse {
+    constructor(statusCode, status, message) {
+        this.statusCode = statusCode;
+        this.status = status;
+        this.message = message;
+    }
+    /**Prepare our response for actions */
+    prepare(res, response) {
+        return res.status(this.status).json(ApiResponse.sanitize(response));
+    }
+
+    send(res) {
+        return this.prepare(res, this);
+    }
+
+    static sanitize(response) {
+        const clone = {};
+        Object.assign(clone, response);
+        delete clone.status;
+
+        for (const key in clone) {
+            if (clone[key] === undefined) {
+                delete clone[key];
+            }
+        }
+
+        return clone;
+    }
 }
