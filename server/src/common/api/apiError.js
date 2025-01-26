@@ -16,7 +16,7 @@ const ErrorType = {
     FORBIDDEN: "ForbiddenError",
 };
 
-class AppError extends Error {
+class ApiError extends Error {
     constructor(type, message = "Error", statusCode) {
         super(type);
         this.statusCode = statusCode;
@@ -26,7 +26,7 @@ class AppError extends Error {
         Error.captureStackTrace(this, this.constructor);
     }
 
-    handleProductionError(err, req, res) {
+    _handleProductionError(err, req, res) {
         //? For The Client invalidation
 
         const { status, message, statusCode } = err;
@@ -78,7 +78,7 @@ class AppError extends Error {
         });
     }
 
-    handle(err, res) {
+    _handle(err, res) {
         switch (err.type) {
             case ErrorType.BAD_TOKEN:
             case ErrorType.TOKEN_EXPIRED:
@@ -91,8 +91,30 @@ class AppError extends Error {
 
             default:
                 if (process.env.NODE_ENV === "production") {
-                    this.handleProductionError(err, req, res);
+                    this._handleProductionErrorhandleProductionError(
+                        err,
+                        req,
+                        res
+                    );
                 }
         }
+    }
+}
+
+export class InternalError extends ApiError {
+    constructor(message = "Internal Server Error") {
+        super(ErrorType.INTERNAL, message);
+    }
+}
+
+export class BadRequestError extends ApiError {
+    constructor(message = "Bad Request") {
+        super(ErrorType.BAD_REQUEST, message);
+    }
+}
+
+export class NotFoundError extends ApiError {
+    constructor(message = "Not Found") {
+        super(ErrorType.NOT_FOUND, message);
     }
 }
