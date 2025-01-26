@@ -87,3 +87,25 @@ export class CreatedMessageResponse extends ApiResponse {
         super(StatusCode.SUCCESS, ResponseStatus.CREATED, message);
     }
 }
+
+export class CreatedResponse extends ApiResponse {
+    /**
+     * @param {string} message
+     * @param {*} data
+     */
+    #data;
+    constructor(message, data) {
+        super(StatusCode.SUCCESS, ResponseStatus.CREATED, message);
+        this.#data = data;
+    }
+
+    /**
+     * Sends the response
+     * @param {Response} res
+     * @returns {Response}
+     */
+
+    send(res) {
+        return super.prepare(res, { data: this.#data });
+    }
+}
