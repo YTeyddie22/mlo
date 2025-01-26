@@ -7,7 +7,6 @@ const StatusCode = {
     RETRY: "RETRY",
     UNAUTHORIZED: "UNAUTHORIZED",
     INVALID_ACCESS_TOKEN: "INVALID_ACCESS_TOKEN",
-    SERVER_ERROR: "SERVER_ERROR",
 };
 
 const ResponseStatus = {
@@ -68,5 +67,11 @@ export class NotFoundResponse extends ApiResponse {
     send(res) {
         this.url = res.req?.originalUrl;
         return super.prepare(res, this);
+    }
+}
+
+export class ServerErrorResponse extends ApiResponse {
+    constructor(message = "Internal Server Error") {
+        super(StatusCode.FAILURE, ResponseStatus.SERVER_ERROR, message);
     }
 }
