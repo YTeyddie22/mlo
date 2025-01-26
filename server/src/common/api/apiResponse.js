@@ -75,3 +75,9 @@ export class ServerErrorResponse extends ApiResponse {
         super(StatusCode.FAILURE, ResponseStatus.SERVER_ERROR, message);
     }
 }
+
+export class SuccessMessageResponse extends ApiResponse {
+    constructor(message) {
+        super(StatusCode.SUCCESS, ResponseStatus.SUCCESS, message);
+    }
+}
