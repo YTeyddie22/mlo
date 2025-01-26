@@ -81,3 +81,9 @@ export class SuccessMessageResponse extends ApiResponse {
         super(StatusCode.SUCCESS, ResponseStatus.SUCCESS, message);
     }
 }
+
+export class CreatedMessageResponse extends ApiResponse {
+    constructor(message = "Created") {
+        super(StatusCode.SUCCESS, ResponseStatus.CREATED, message);
+    }
+}
