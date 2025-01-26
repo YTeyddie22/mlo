@@ -152,3 +152,9 @@ export class BadRequestResponseWithData extends ApiResponse {
         return super._prepare(res, { ...this, data: this.#data });
     }
 }
+
+export class ForbiddenResponse extends ApiResponse {
+    constructor(message = "Forbidden") {
+        super(StatusCode.FAILURE, ResponseStatus.FORBIDDEN, message);
+    }
+}
