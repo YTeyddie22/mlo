@@ -71,14 +71,15 @@ export class AuthFailureError extends ApiResponse {
 }
 
 export class NotFoundResponse extends ApiResponse {
+    #url;
     constructor(message = "Not Found") {
         super(StatusCode.FAILURE, ResponseStatus.NOT_FOUND, message);
-        this.url = undefined;
+        this.#url = undefined;
     }
 
     send(res) {
-        this.url = res.req?.originalUrl;
-        return super.prepare(res, this);
+        this.#url = res.req?.originalUrl;
+        return super._prepare(res, { ...this, url: this.#url });
     }
 }
 
@@ -97,7 +98,12 @@ export class SuccessMessageResponse extends ApiResponse {
 export class SuccessResponse extends ApiResponse {
     #data;
     constructor(message, data) {
-        super(StatusCode.SUCCESS, ResponseStatus);
+        super(StatusCode.SUCCESS, ResponseStatus.SUCCESS, message);
+        this.#data = data;
+    }
+
+    send(res) {
+        return super._prepare(res, { ...this, data: this.#data });
     }
 }
 
@@ -125,6 +131,6 @@ export class CreatedResponse extends ApiResponse {
      */
 
     send(res) {
-        return super.prepare(res, { data: this.#data });
+        return super._prepare(res, { data: this.#data });
     }
 }
