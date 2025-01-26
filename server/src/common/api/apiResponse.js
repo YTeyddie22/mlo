@@ -64,7 +64,7 @@ class ApiResponse {
     }
 }
 
-export class AuthFailureError extends ApiResponse {
+export class AuthFailureResponse extends ApiResponse {
     constructor(message = "Authentication Failure") {
         super(StatusCode.FAILURE, ResponseStatus.UNAUTHORIZED, message);
     }
@@ -83,7 +83,7 @@ export class NotFoundResponse extends ApiResponse {
     }
 }
 
-export class ServerErrorMessage extends ApiResponse {
+export class ServerErrorResponse extends ApiResponse {
     constructor(message = "Internal Server Error") {
         super(StatusCode.FAILURE, ResponseStatus.SERVER_ERROR, message);
     }

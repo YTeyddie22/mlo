@@ -1,3 +1,10 @@
+const {
+    AuthFailureResponse,
+    BadRequestResponse,
+    NotFoundResponse,
+    ServerErrorResponse,
+} = require("./apiResponse");
+
 const ErrorType = {
     BAD_TOKEN: "BadTokenError",
     TOKEN_EXPIRED: "TokenExpiredError",
