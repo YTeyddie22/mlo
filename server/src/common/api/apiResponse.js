@@ -134,3 +134,21 @@ export class CreatedResponse extends ApiResponse {
         return super._prepare(res, { data: this.#data });
     }
 }
+
+export class BadRequestResponse extends ApiResponse {
+    constructor(message = "Bad Request") {
+        super(StatusCode.FAILURE, ResponseStatus.BAD_REQUEST, message);
+    }
+}
+
+export class BadRequestResponseWithData extends ApiResponse {
+    #data;
+    constructor(message, data) {
+        super(StatusCode.FAILURE, ResponseStatus.BAD_REQUEST, message);
+        this.#data = data;
+    }
+
+    send(res) {
+        return super._prepare(res, { ...this, data: this.#data });
+    }
+}
