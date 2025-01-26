@@ -70,7 +70,7 @@ export class NotFoundResponse extends ApiResponse {
     }
 }
 
-export class ServerErrorResponse extends ApiResponse {
+export class ServerErrorMessage extends ApiResponse {
     constructor(message = "Internal Server Error") {
         super(StatusCode.FAILURE, ResponseStatus.SERVER_ERROR, message);
     }
