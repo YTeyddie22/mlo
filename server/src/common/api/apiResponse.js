@@ -23,24 +23,36 @@ const ResponseStatus = {
 };
 
 class ApiResponse {
+    /**
+     * @param {number} statusCode
+     * @param {string} status
+     * @param {string} message
+     */
+
     constructor(statusCode, status, message) {
-        this.statusCode = statusCode;
-        this.status = status;
-        this.message = message;
+        this._statusCode = statusCode;
+        this._status = status;
+        this._message = message;
     }
-    /**Prepare our response for actions */
-    prepare(res, response) {
-        return res.status(this.status).json(ApiResponse.sanitize(response));
+
+    /**
+     * Prepares the response object.
+     * @param {Response} res
+     * @param {ApiResponse} response
+     * @returns {Response}
+     */
+    _prepare(res, response) {
+        return res.status(this._status).json(ApiResponse._sanitize(response));
     }
 
     send(res) {
-        return this.prepare(res, this);
+        return this._prepare(res, this);
     }
 
-    static sanitize(response) {
+    static _sanitize(response) {
         const clone = {};
         Object.assign(clone, response);
-        delete clone.status;
+        delete clone._status;
 
         for (const key in clone) {
             if (clone[key] === undefined) {
@@ -79,6 +91,13 @@ export class ServerErrorMessage extends ApiResponse {
 export class SuccessMessageResponse extends ApiResponse {
     constructor(message) {
         super(StatusCode.SUCCESS, ResponseStatus.SUCCESS, message);
+    }
+}
+
+export class SuccessResponse extends ApiResponse {
+    #data;
+    constructor(message, data) {
+        super(StatusCode.SUCCESS, ResponseStatus);
     }
 }
 
