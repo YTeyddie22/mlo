@@ -5,6 +5,7 @@ const dayjs = require("dayjs");
 class BaseLogger {
     #env = process.env;
     #options;
+    #Message = Symbol.for("message");
     #logLevel = this.#env.DEV_ENV ? "debug" : "info";
     #directory = "./src/logs/app.log";
 
@@ -12,11 +13,15 @@ class BaseLogger {
         this.#options = this._config();
     }
 
+    setLogLevel(level) {
+        this.#logLevel = level;
+    }
+
     _config() {
         return {
             file: {
-                level: this.logLevel,
-                filename: `${this.dir}%DATE%.json`,
+                level: this.#logLevel,
+                filename: `${this.#directory}%DATE%.json`,
                 datePattern: "YYYY-MM-DD",
                 zippedArchive: true,
                 timestamp: true,
