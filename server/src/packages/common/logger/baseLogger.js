@@ -1,5 +1,6 @@
 const { createLogger, format, transports } = require("winston");
 const { DailyRotateFile } = require("winston-daily-rotate-file");
+const dayjs = require("dayjs");
 
 class BaseLogger {
     #env = process.env;
@@ -11,9 +12,35 @@ class BaseLogger {
         this.#options = this._config();
     }
 
-    _config() {}
+    _config() {
+        return {
+            file: {
+                level: this.logLevel,
+                filename: `${this.dir}%DATE%.json`,
+                datePattern: "YYYY-MM-DD",
+                zippedArchive: true,
+                timestamp: true,
+                handleExceptions: true,
+                humanReadableUnhandledException: true,
+                prettyPrint: true,
+                json: true,
+                maxSize: "20m",
+                colorize: true,
+                maxFiles: "14d",
+            },
+        };
+    }
 
-    _jsonFormatter() {}
+    _jsonFormatter(logEntry) {
+        const base = {
+            timestamp: dayjs().format("LLLL"),
+        };
+        const json = Object.assign(base, logEntry);
+        logEntry[this.Message] = JSON.stringify(json);
+
+        return logEntry;
+    }
+
     logger(logFileDir) {
         return createLogger({
             transports: [
