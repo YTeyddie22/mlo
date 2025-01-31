@@ -6,7 +6,7 @@ import {
     ServerErrorResponse,
     SuccessMessageResponse,
     SuccessResponse,
-} from "./apiResponse";
+} from "./responseController/apiResponse";
 
 class BaseController {
     #res;
