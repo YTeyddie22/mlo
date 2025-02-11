@@ -41,7 +41,7 @@ class BaseLogger {
             timestamp: dayjs().format("LLLL"),
         };
         const json = Object.assign(base, logEntry);
-        logEntry[this.Message] = JSON.stringify(json);
+        logEntry[this.#Message] = JSON.stringify(json);
 
         return logEntry;
     }
