@@ -46,4 +46,4 @@ class Log extends BaseLogger {
         }
     }
 }
-export default Log;
+module.exports = Log;
