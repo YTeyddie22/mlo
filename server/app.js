@@ -113,7 +113,10 @@ app.disable("x-powered-by");
  */
 
 //app.set("view engine", "pug");
-app.use(compression());
+const shouldCompress = (req, res)=> (req.headers['x-no-compression'] ? false : compression.filter(req, res))
+app.use(compression({
+    filter: shouldCompress
+}));
 
 app.get("/test", (req, res) => {
     res.status(200).json({
