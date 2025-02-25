@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 const http = require("http");
 const app = require("./app");
-const Logger = require("./src/packages/common/logger");
+const Logger = require("./packages/common/logger");
 
 process.on("uncaughtException", (err) => {
     Logger.error("---Uncaught Exception--->", true, err);

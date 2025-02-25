@@ -10,7 +10,7 @@ const { xss } = require("express-xss-sanitizer");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
 const cors = require("cors");
-const { logger, loggerMiddleware } = require("./src/packages/common/logger");
+const { logger, loggerMiddleware } = require("./packages/common/logger");
 
 app.use(morgan("combined"));
 app.use(express.json());
@@ -114,10 +114,13 @@ app.disable("x-powered-by");
 
 //app.set("view engine", "pug");
 
-const shouldCompress = (req, res)=> (req.headers['x-no-compression'] ? false : compression.filter(req, res))
-app.use(compression({
-    filter: shouldCompress
-}));
+const shouldCompress = (req, res) =>
+    req.headers["x-no-compression"] ? false : compression.filter(req, res);
+app.use(
+    compression({
+        filter: shouldCompress,
+    })
+);
 
 app.get("/test", (req, res) => {
     res.status(200).json({
