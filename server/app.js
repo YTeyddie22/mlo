@@ -113,6 +113,7 @@ app.disable("x-powered-by");
  */
 
 //app.set("view engine", "pug");
+
 const shouldCompress = (req, res)=> (req.headers['x-no-compression'] ? false : compression.filter(req, res))
 app.use(compression({
     filter: shouldCompress
